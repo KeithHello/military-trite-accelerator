@@ -5,7 +5,7 @@ export const checkUser = (username: string, userData: UserData[]) : UserData | u
 }
 
 // check whether user is in the user profile list
-export const checkUserProfile = (uid: string, userProfiles: UserProfiles[]) : UserProfiles | undefined => {
+export const checkUserProfile = (uid: string, userProfiles: UserProfile[]) : UserProfile | undefined => {
     const userProfile = userProfiles.find((userProfile) => userProfile.userUid === uid);
     return userProfile;
 }

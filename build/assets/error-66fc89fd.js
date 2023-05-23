@@ -1,0 +1,1 @@
+import{j as e,a as r,B as a}from"./index-f5b898c7.js";const i=()=>e("div",{children:[r("div",{children:"Some error happens. Please try agin."}),r(a,{type:"primary",href:"/",children:"Go back"})]});export{i as default};

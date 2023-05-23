@@ -5,7 +5,7 @@ interface UserData {
     uid: string;
 }
 
-interface UserProfiles {
+interface UserProfile {
     userUid: string;
     address: string;
     birthdate: string;

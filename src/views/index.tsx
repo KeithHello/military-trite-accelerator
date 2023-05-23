@@ -5,17 +5,14 @@ import { Form, Input, Button, message } from "antd";
 import SendForm from "../components/send-form";
 import { checkUser, checkUserProfile } from "../utils/validation";
 import { ageCalculate } from "../utils/age-calculate";
-import { sendMailInterval } from "../utils/nodemailer";
 
 const View = () => {
   // Router
   const navigate = useNavigate();
 
   // API data
-  const [userData, setUserData] = useState<UserData[]>([]);
-  const [userProfilesData, setUserProfilesData] = useState<UserProfiles[]>([]);
-  const [user, setUser] = useState<UserData>();
-  const [userProfile, setUserProfile] = useState<UserProfiles>();
+  const [usersData, setUsersData] = useState<UserData[]>([]);
+  const [userProfilesData, setUserProfilesData] = useState<UserProfile[]>([]);
 
   // Input data
   const [form] = Form.useForm();
@@ -24,7 +21,7 @@ const View = () => {
     // get data from API
     axios.get("https://raw.githubusercontent.com/alj-devops/santa-data/master/users.json")
       .then((res) => {
-        setUserData(res.data);
+        setUsersData(res.data);
       })
       .catch((err) => console.log(err));
     axios.get("https://raw.githubusercontent.com/alj-devops/santa-data/master/userProfiles.json")
@@ -32,40 +29,60 @@ const View = () => {
         setUserProfilesData(res.data);
       })
       .catch((err) => console.log(err));
+  }, []);
 
+  useEffect(() => {
     // Every 15 seconds send mail
     const intervalId = setInterval(() => {
-      // if (user && userProfile) sendMailInterval(user.username, userProfile.address, form.getFieldValue("wish"));
+      const [user, userProfile] = handleData();
+
+      if (user && user.username && userProfile && userProfile.address && form.getFieldValue("wish")) {
+        axios.post("/send", {
+          username: user.username,
+          address: userProfile.address,
+          wish: form.getFieldValue("wish"),
+        })
+          .then((res) => {
+            message.info("Mail sent");
+            console.log("Mail sent for user: " + user.username);
+          })
+          .catch((err) => console.log(err));
+      }
     }, 15000);
 
     return () => clearInterval(intervalId);
-  }, []);
+  }, [usersData, userProfilesData, form.getFieldValue("username")]);
 
-  // send data to API
-  const handleSend = () => {
-    const data = form.getFieldsValue();
-
+  // get data from API
+  const handleData = () : [UserData | null, UserProfile | null] => {
     // check if user exists
-    const user = checkUser(data.username, userData);
+    const user = checkUser(form.getFieldValue("username"), usersData);
 
     if (!user) {
-      message.error("User does not exist");
-      navigate("/error");
-      return;
+      return [null, null];
     }
-
-    setUser(user);
 
     // check if user profile exists
     const userProfile = checkUserProfile(user.uid, userProfilesData);
 
     if (!userProfile) {
-      message.error("User profile does not exist");
-      navigate("/error");
-      return;
+      return [user, null];
     }
 
-    setUserProfile(userProfile);
+    return [user, userProfile];
+  };
+
+
+  // send data to API
+  const handleSend = () => {
+    const [user, userProfile] = handleData();
+
+    // check if user exists or user profile exists
+    if (!user || !userProfile) {
+      !user ? message.error("User does not exist") : message.error("User profile does not exist");
+      navigate("/error");
+      return;
+    };
 
     // calculate user age
     const userAge = ageCalculate(userProfile.birthdate);
@@ -77,7 +94,7 @@ const View = () => {
       return;
     }
 
-    message.success('Your wish is sent to Santa!');
+    message.success('Your wish is received by Santa!');
     navigate("/success");
   };
 

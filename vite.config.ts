@@ -6,8 +6,10 @@ import commonjs from '@rollup/plugin-commonjs'
 export default defineConfig({
   plugins: [
     react(),
-    commonjs({
-      include: /node_modules/
-    })
   ],
+  build: {
+    outDir: 'build',
+    assetsDir: 'assets',
+    emptyOutDir: true,
+  },
 })
