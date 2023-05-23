@@ -9,22 +9,19 @@
     "build": "vite build"
   },
   "dependencies": {
-    "@rollup/plugin-commonjs": "^25.0.0",
     "@vitejs/plugin-react": "^3.1.0",
     "antd": "^5.5.0",
     "axios": "^1.4.0",
     "body-parser": "^1.20.2",
     "dotenv": "^16.0.3",
     "emailjs": "^4.0.2",
-    "esbuild": "^0.17.19",
     "express": "^4.18.2",
     "morgan": "^1.10.0",
     "nodemailer": "^6.9.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.11.2",
-    "request": "^2.88.2",
-    "rollup-plugin-commonjs": "^10.1.0"
+    "request": "^2.88.2"
   },
   "devDependencies": {
     "@types/nodemailer": "^6.4.8",

@@ -65,3 +65,30 @@ Email sender should be set as do_not_reply@northpole.com, and sent to santa@nort
 
 Click `Show` in the header to see your app live. Updates to your code will instantly deploy and update live.
 When your app is running, you can access logs and console using the "Tools" button at the bottom left.
+
+
+
+## Name
+
+Li Hongji
+
+## What I have done
+
+- add logic as required
+  - check child's name
+  - check child's age
+  - send email for pending information every 15 seconds
+  - create error and success pages
+- refactor the application to React and TypeScript
+- add types to control the model
+- use Axios the communicate the frontend and backend
+- add router to control pages
+- use environment variables to setup SMTP server
+- add build command for packaging
+- use Ant Design to control the layout and send popup messages
+
+## My Experience
+
+I have 3 years experience in JavaScript and I have used NodeJS for 2 years.
+
+I learn JavaScript, NodeJS basically by work and self-learning. And I learn React, and TypeScript by self-learning.
